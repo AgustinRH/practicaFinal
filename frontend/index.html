@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1>Prueba CI/CD con Docker</h1>
+    <div id="resultado">Cargando...</div>
+
+    <script>
+        // Esta URL la configuraremos en las variables de entorno de Vercel
+        const API_URL = "URL_DE_RENDER_AQUI"; 
+        
+        fetch(API_URL)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('resultado').innerText = data.mensaje;
+            });
+    </script>
+</body>
+</html>
