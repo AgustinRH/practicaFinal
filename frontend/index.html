@@ -1,18 +1,29 @@
-<!DOCTYPE html>
-<html>
-<body>
-    <h1>Prueba CI/CD con Docker</h1>
-    <div id="resultado">Cargando...</div>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Práctica final CI/CD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-900">
+    <main class="mx-auto mt-16 max-w-2xl rounded-xl bg-white p-8 shadow-lg">
+      <h1 class="text-3xl font-bold tracking-tight">Práctica final</h1>
+      <p class="mt-3 text-slate-600">
+        Frontend desplegado en Vercel y backend en Render/Railway.
+      </p>
+      <button
+        id="loadBtn"
+        class="mt-6 rounded-lg bg-slate-900 px-4 py-2 font-medium text-white transition hover:bg-slate-700"
+      >
+        Cargar mensaje del backend
+      </button>
+      <pre
+        id="output"
+        class="mt-4 overflow-auto rounded-lg bg-slate-100 p-4 text-sm text-slate-800"
+      >Esperando respuesta...</pre>
+    </main>
 
-    <script>
-        // Esta URL la configuraremos en las variables de entorno de Vercel
-        const API_URL = "URL_DE_RENDER_AQUI"; 
-        
-        fetch(API_URL)
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('resultado').innerText = data.mensaje;
-            });
-    </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

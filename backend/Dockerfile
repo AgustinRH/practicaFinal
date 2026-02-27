@@ -1,15 +1,15 @@
-# Usamos una imagen ligera de Python
-FROM python:3.9-slim
+FROM python:3.11-slim
 
-# Directorio de trabajo
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# Copiamos los requisitos e instalamos
-COPY requirements.txt .
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copiamos el resto del código
 COPY . .
 
-# Comando para ejecutar con Gunicorn (mejor para producción)
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "main:app"]
+EXPOSE 10000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:10000", "app:app"]
