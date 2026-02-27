@@ -1,4 +1,4 @@
-const BACKEND_URL = "https://TU-SERVICIO-RENDER.onrender.com";
+const BACKEND_URL = "https://practicafinal-t14s.onrender.com";
 
 const output = document.getElementById("output");
 const button = document.getElementById("loadBtn");
