@@ -1,11 +1,11 @@
-# Práctica final: Despliegue en Vercel, Render y Railway con CI/CD
+# Práctica final: Despliegue de una aplicación propia en Vercel, Render y Railway con CI/CD
 
-Proyecto full-stack dividido en:
+Este proyecto se desarrolló en dos carpetas principales:
 
-- `backend`: API Flask (Python) con `requirements.txt` y `Dockerfile`.
-- `frontend`: web estática con Tailwind CSS (CDN) lista para Vercel.
+- `backend`: API en Flask con `requirements.txt` y `Dockerfile`.
+- `frontend`: aplicación web estática con Tailwind CSS.
 
-## 1) Estructura
+## Estructura del proyecto
 
 ```bash
 practicaFinal/
@@ -18,6 +18,7 @@ practicaFinal/
 │   ├── index.html
 │   ├── script.js
 │   └── vercel.json
+├── img/
 ├── .github/workflows/
 │   ├── ci.yml
 │   └── deploy.yml
@@ -25,78 +26,109 @@ practicaFinal/
 └── railway.toml
 ```
 
-## 2) Backend local
+---
+
+## Backend (paso a paso)
+
+### 1) Crear la API con Flask
+
+Se creó `backend/app.py` con dos endpoints:
+
+- `GET /api/health`
+- `GET /api/message`
+
+### 2) Definir dependencias
+
+Se agregó `backend/requirements.txt` con Flask, CORS, Gunicorn y Pytest.
+
+![requirements](img/requirements.png)
+
+### 3) Dockerizar el backend
+
+Se creó `backend/Dockerfile` para construir y ejecutar el servicio en contenedor.
+
+![dockerfile](img/dockerfile.png)
+
+### 4) Probar localmente
+
+Desde `backend/`:
 
 ```bash
-cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
 
-API disponible en `http://localhost:5000`.
+### 5) Desplegar backend en Render
 
-## 3) Frontend local
+Se conectó el repositorio en Render y se desplegó usando Docker con raíz en `backend`.
 
-Abre `frontend/index.html` en navegador o usa un servidor estático.
+URL desplegada:
 
-Antes de desplegar, edita `frontend/script.js` y reemplaza:
+- https://practicafinal-t14s.onrender.com/
 
-- `https://TU-SERVICIO-RENDER.onrender.com`
+Evidencia:
 
-por la URL real de tu backend (Render o Railway).
+![backend desplegado](img/final-backend.png)
 
-## 4) Despliegue en Render (backend)
+### 6) Preparar despliegue en Railway
 
-1. Conecta tu repo en Render.
-2. Crea un servicio web usando `Docker`.
-3. Usa `rootDir = backend` (o selecciona carpeta `backend`).
-4. Render detectará el `backend/Dockerfile`.
-5. Al desplegar, prueba:
-   - `/api/health`
-   - `/api/message`
+Se añadió `railway.toml` para desplegar también el backend con Docker en Railway.
 
-También puedes usar la base de `render.yaml` del proyecto.
+---
 
-## 5) Despliegue en Railway (backend)
+## Frontend (paso a paso)
 
-1. Crea nuevo proyecto en Railway desde GitHub.
-2. Railway usa `railway.toml` para construir con `backend/Dockerfile`.
-3. Publica el servicio y copia la URL pública.
-4. Verifica:
-   - `/api/health`
-   - `/api/message`
+### 1) Crear interfaz web
 
-## 6) Despliegue en Vercel (frontend)
+Se implementó `frontend/index.html` con Tailwind CSS y un botón para consultar el backend.
 
-1. Importa el repositorio en Vercel.
-2. Configura **Root Directory**: `frontend`.
-3. Framework preset: `Other`.
-4. Deploy.
+### 2) Conectar frontend con backend
 
-## 7) CI/CD con GitHub Actions
+En `frontend/script.js` se configuró la URL del backend desplegado en Render:
 
-### CI (`.github/workflows/ci.yml`)
+- `https://practicafinal-t14s.onrender.com`
 
-- Ejecuta tests de backend con `pytest`.
-- Verifica archivos clave del frontend.
+### 3) Configurar Vercel
 
-### CD (`.github/workflows/deploy.yml`)
+Se añadió `frontend/vercel.json` y se desplegó el frontend con `Root Directory = frontend`.
 
-En cada push a `main`, dispara hooks de despliegue si existen los secretos:
+URL desplegada:
+
+- https://practica-final-blond.vercel.app/
+
+Evidencia:
+
+![vercel desplegado](img/vercel_desplegado.png)
+
+### 4) Resultado final integrado
+
+El frontend consume correctamente el backend y muestra la respuesta de la API.
+
+![resultado final](img/Imagen_final.png)
+
+---
+
+## CI/CD con GitHub Actions
+
+### 1) Integración continua (CI)
+
+En `.github/workflows/ci.yml` se configuró:
+
+- pruebas del backend con `pytest`;
+- validación de archivos clave del frontend.
+
+### 2) Despliegue continuo (CD)
+
+En `.github/workflows/deploy.yml` se configuró el disparo por `push` a `main` mediante Deploy Hooks para:
+
+- Render
+- Vercel
+
+Secretos usados en GitHub:
 
 - `RENDER_DEPLOY_HOOK_URL`
 - `VERCEL_DEPLOY_HOOK_URL`
-- `RAILWAY_DEPLOY_HOOK_URL`
 
-Crea estos secretos en tu repositorio de GitHub:
-
-- **Settings > Secrets and variables > Actions > New repository secret**
-
-## 8) Evidencia sugerida para la entrega
-
-- Captura de los 3 despliegues (Vercel, Render, Railway).
-- Captura del workflow de CI pasando en GitHub Actions.
-- Enlace a endpoints `/api/health` y `/api/message`.
-- URL pública del frontend en Vercel consumiendo el backend.
+![deploys](img/evidencias_deploys_hook.png)
