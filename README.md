@@ -119,6 +119,10 @@ En `.github/workflows/ci.yml` se configuró:
 - pruebas del backend con `pytest`;
 - validación de archivos clave del frontend.
 
+Evidencia de ejecución del workflow:
+
+![workflow running](img/workflow_running.png)
+
 ### 2) Despliegue continuo (CD)
 
 En `.github/workflows/deploy.yml` se configuró el disparo por `push` a `main` mediante Deploy Hooks para:
@@ -126,7 +130,7 @@ En `.github/workflows/deploy.yml` se configuró el disparo por `push` a `main` m
 - Render
 - Vercel
 
-Secretos usados en GitHub:
+Secrets usados en GitHub:
 
 - `RENDER_DEPLOY_HOOK_URL`
 - `VERCEL_DEPLOY_HOOK_URL`
